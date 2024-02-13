@@ -8,7 +8,7 @@ const testFn = jest.fn();
 describe("Giphy List Item", () => {
   it("should render giphy image and owner correctly", () => {
     render(<GiphyListItem onClick={testFn} item={item1} />);
-    const titleEle = screen.getByText("testing title");
+    const titleEle = screen.getByText(item1.title);
     expect(titleEle).toBeInTheDocument();
     const image = screen.getByRole("img");
     expect(image).toHaveProperty("src", item1.images.original.webp);
