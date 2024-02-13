@@ -1,40 +1,21 @@
 import { render, screen } from "@testing-library/react";
 import { GiphyListItem } from ".";
-import { IGiphy } from "../../models/giphy";
 import userEvent from "@testing-library/user-event";
-
-const item: IGiphy = {
-  id: "1",
-  rating: "pg",
-  title: "testing title",
-  slug: "#test",
-  url: "testing url",
-  username: "test username",
-  images: {
-    original: {
-      url: "url for test",
-      height: "100",
-      width: "100",
-      size: "",
-      webp: "http://giphy/test-giphy.webp",
-      webp_size: "",
-    },
-  },
-};
+import { item1 } from "../../data/mock-giphy";
 
 const testFn = jest.fn();
 
 describe("Giphy List Item", () => {
   it("should render giphy image and owner correctly", () => {
-    render(<GiphyListItem onClick={testFn} item={item} />);
+    render(<GiphyListItem onClick={testFn} item={item1} />);
     const titleEle = screen.getByText("testing title");
     expect(titleEle).toBeInTheDocument();
     const image = screen.getByRole("img");
-    expect(image).toHaveProperty("src", item.images.original.webp);
+    expect(image).toHaveProperty("src", item1.images.original.webp);
   });
 
   it("should trigger onClick function when click on giphy component", () => {
-    render(<GiphyListItem onClick={testFn} item={item} />);
+    render(<GiphyListItem onClick={testFn} item={item1} />);
     userEvent.click(screen.getByRole("listitem"));
     expect(testFn).toBeCalled();
   });
