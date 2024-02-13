@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { GiphyListItem } from ".";
 import { IGiphy } from "../../models/giphy";
-import exp from "constants";
 import userEvent from "@testing-library/user-event";
 
 const item: IGiphy = {
