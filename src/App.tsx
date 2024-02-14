@@ -1,23 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import "./App.css";
+import { SearchBox } from "./components/search-box";
+import { TrendingPage } from "./pages/trending";
+import { SearchPage } from "./pages/search";
+import { useState } from "react";
 
 function App() {
+  const navigate = useNavigate();
+  const [keyword, setKeyword] = useState("");
+  const handleSearch = (keyword: string) => {
+    setKeyword(keyword);
+    navigate(`/search/${keyword}`);
+  };
+  const resetKeyword = () => {
+    setKeyword("");
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div>
+          <Link onClick={resetKeyword} to="/">
+            Trending
+          </Link>
+          <SearchBox onSearch={handleSearch} keyword={keyword} />
+        </div>
+
+        <Routes>
+          <Route path="/search/:key" element={<SearchPage />} />
+          <Route path="*" element={<TrendingPage />} />
+        </Routes>
       </header>
     </div>
   );

@@ -1,13 +1,18 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 interface Props {
   onSearch: (value: string) => void;
+  keyword: string;
 }
-export const SearchBox = ({ onSearch }: Props) => {
-  const [value, setValue] = useState("");
+export const SearchBox = ({ onSearch, keyword }: Props) => {
+  const [value, setValue] = useState(keyword);
+  useEffect(() => {
+    setValue(keyword);
+  }, [keyword]);
   const handleSearch = () => {
     onSearch(value);
   };
+
   return (
     <div>
       <input
