@@ -1,16 +1,20 @@
 import axios, { AxiosResponse } from "axios";
 import { SEARCH_GIPHY_URL, TRENDING_GIPHY_URL } from "../data";
-import { IGiphy } from "../models/giphy";
+import { IGiphy, IGiphyResponse } from "../models/giphy";
 
-export const getGIFTrending = async (page: number = 0, limit: number = 25) => {
+export const getGIFTrending = async (
+  page: number = 0,
+  limit: number = 25
+): Promise<IGiphyResponse> => {
+  console.log("CALL API ", page);
   try {
     const response: AxiosResponse = await axios.get(
       `${TRENDING_GIPHY_URL}&offset=${page * limit}&limit=${limit}`
     );
-    const data: IGiphy[] = response.data;
+    const data = response.data;
     return data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -26,6 +30,6 @@ export const searchGIF = async (
     const data: IGiphy[] = response.data;
     return data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
