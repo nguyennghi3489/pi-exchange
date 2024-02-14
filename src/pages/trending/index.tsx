@@ -4,7 +4,7 @@ import { IGiphy, IGiphyResponse } from "../../models/giphy";
 import { getGIFTrending } from "../../services/giphy";
 import { GiphyList } from "../../components/giphy-list";
 
-const LIMIT_ITEMS_PER_PAGE = 5;
+const LIMIT_ITEMS_PER_PAGE = 25;
 
 export const TrendingPage = () => {
   const { data, status, fetchNextPage, isFetching } = useInfiniteQuery<
@@ -27,7 +27,6 @@ export const TrendingPage = () => {
     (acc: IGiphy[], cur: IGiphyResponse) => [...acc, ...cur.data],
     []
   );
-  console.log(items?.length);
 
   const handleShowDetail = () => {};
 
