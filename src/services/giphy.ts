@@ -6,7 +6,6 @@ export const getGIFTrending = async (
   page: number = 0,
   limit: number = 25
 ): Promise<IGiphyResponse> => {
-  console.log("CALL API ", page);
   try {
     const response: AxiosResponse = await axios.get(
       `${TRENDING_GIPHY_URL}&offset=${page * limit}&limit=${limit}`
