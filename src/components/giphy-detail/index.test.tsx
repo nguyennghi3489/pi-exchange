@@ -8,11 +8,11 @@ const testFn = jest.fn();
 describe("Giphy Detail", () => {
   it("should render giphy detail correctly", () => {
     render(<GiphyDetail onClose={testFn} item={item1} />);
-    const titleEle = screen.getByText(item1.title);
+    const titleEle = screen.getByText(`Title: ${item1.title}`);
     expect(titleEle).toBeInTheDocument();
-    const ratingEle = screen.getByText(item1.rating);
+    const ratingEle = screen.getByText(`Rating: ${item1.rating}`);
     expect(ratingEle).toBeInTheDocument();
-    const usernameEle = screen.getByText(item1.username);
+    const usernameEle = screen.getByText(`Username: ${item1.username}`);
     expect(usernameEle).toBeInTheDocument();
     const image = screen.getByRole("img");
     expect(image).toHaveProperty("src", item1.images.original.webp);
@@ -32,7 +32,7 @@ describe("Giphy Detail", () => {
 
   it("should trigger onClose when click on Close button", () => {
     render(<GiphyDetail onClose={testFn} item={item1} />);
-    const buttonEle = screen.getByText("Close");
+    const buttonEle = screen.getByText("X");
     userEvent.click(buttonEle);
     expect(testFn).toBeCalled();
   });

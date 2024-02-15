@@ -1,19 +1,22 @@
 import { useInfiniteQuery } from "react-query";
+import { useParams } from "react-router-dom";
 import { AxiosError } from "axios";
+import { useState } from "react";
 import { IGiphy, IGiphyResponse } from "../../models/giphy";
 import { searchGIF } from "../../services/giphy";
 import { GiphyList } from "../../components/giphy-list";
-import { useParams } from "react-router-dom";
+import { GiphyDetail } from "../../components/giphy-detail";
 
 const LIMIT_ITEMS_PER_PAGE = 25;
 
 export const SearchPage = () => {
   const { key } = useParams();
+  const [detailItem, setDetailItem] = useState<IGiphy | undefined>(undefined);
   const { data, status, fetchNextPage, isFetching } = useInfiniteQuery<
     IGiphyResponse,
     AxiosError
   >({
-    queryKey: ["search"],
+    queryKey: ["search", key],
     queryFn: ({ pageParam }) =>
       searchGIF(key ?? "", pageParam, LIMIT_ITEMS_PER_PAGE),
     getNextPageParam: (lastPage) => {
@@ -31,16 +34,22 @@ export const SearchPage = () => {
     []
   );
 
-  const handleShowDetail = () => {};
+  const handleShowDetail = (item: IGiphy) => {
+    setDetailItem(item);
+  };
+  const closeShowDetail = () => {
+    setDetailItem(undefined);
+  };
 
   return (
     <div>
       {status === "error" && <p>Error fetching data</p>}
       {status === "loading" && <p>Fetching data...</p>}
-      {status === "success" && (
-        <div className="gap-8 columns-3 ...">
-          {items && <GiphyList items={items} onClick={handleShowDetail} />}
-        </div>
+      {status === "success" && items && (
+        <GiphyList items={items} onClick={(item) => handleShowDetail(item)} />
+      )}
+      {detailItem && (
+        <GiphyDetail item={detailItem} onClose={closeShowDetail} />
       )}
       {data &&
         !isFetching &&
@@ -48,6 +57,7 @@ export const SearchPage = () => {
         data.pages[0].pagination.count <
           data.pages[0].pagination.total_count && (
           <button
+            className="bg-purple-400 py-4 px-12 font-bold text-white text-lg mt-8"
             onClick={() => {
               fetchNextPage();
             }}

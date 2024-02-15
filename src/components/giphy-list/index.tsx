@@ -7,7 +7,7 @@ interface Props {
 }
 export const GiphyList = ({ items, onClick }: Props) => {
   return (
-    <div role="list">
+    <div role="list" className="gap-4 lg:columns-3 md:columns-2">
       {items.map((item: IGiphy) => (
         <GiphyListItem
           key={item.id}
